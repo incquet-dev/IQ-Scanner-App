@@ -18,7 +18,7 @@
     </v-app-bar>
 
     <v-main>
-      <ScannerComponent :showQuantity="showQuantity" />
+      <ScannerComponent :showQuantity="showQuantity" :formName="formName" :fieldName="fieldName" />
     </v-main>
   </v-app>
 </template>
@@ -39,11 +39,16 @@ export default {
   data() {
     return {
       showQuantity: false,
+      formName:"",
+      fieldName:""
     }
   },
   created() {
     ZOHO.CREATOR.UTIL.getQueryParams().then((params) => {
       this.showQuantity = params.showQuantity === "true";
+      this.formName= params.formName;
+      this.fieldName = params.fieldName;
+      console.log(this.showQuantity, this.fieldName, this.formName);
     })
   }
 };

@@ -84,7 +84,7 @@ import { ZOHO } from '../../lib/widgets.js';
 
 
 export default {
-  props:["showQuantity"],
+  props:["showQuantity", "formName", "fieldName"],
   data() {
     return {
       result: null,
@@ -235,7 +235,7 @@ export default {
 
       let config = {
         action: "open",
-        url: `https://creatorapp.zoho.com/${this.ownerName}/${this.appName}/#Form:Invoice?Item_Json=${encodedData}`,
+        url: "https://creatorapp.zoho.com/"+this.ownerName+"/"+this.appName+"/#Form:"+this.formName+"?"+this.fieldName+"="+encodedData+"",
         window: "same"
       };
 
