@@ -46,10 +46,15 @@
       </v-card>
     </v-container>
 
-    <div class="d-flex align-items justify-center">
-      <v-alert type="success">
-        <b>Last Scanned Item</b>:  <span>{{ lastScannedCode }}</span>
-      </v-alert>
+    <div class="d-flex align-items justify-space-between px-2" v-if="scannedItems.length > 0">
+      <div class="last-item">
+        <b style="font-size: 16px;">Last Scanned Item</b>:  <span class="last-code">{{ lastScannedCode }}</span>
+      </div>
+
+      <div class="d-flex align-items-center gap-1">
+        <v-icon size="16">mdi-magnify-expand</v-icon>
+        <span>{{ scannedItems.length }}</span>
+      </div>
     </div>
 
     <div v-if="scannedItems.length > 0" class="scanned-table-container mb-5">
@@ -57,18 +62,20 @@
         <thead class="table-header">
           <tr>
             <th class="text-center" style="width: 10vw;">Sr. No.</th>
-            <th class="text-center" style="width: 50vw;">Scanned Code</th>
-            <th class="text-center" style="width: 30vw;" v-if="showQuantity">Quantity</th>
+            <th class="text-center" style="width: 45vw;">Scanned Code</th>
+            <th class="text-center" style="width: 45vw;" v-if="showQuantity">Quantity</th>
           </tr>
         </thead>
         <tbody class="table-body">
           <tr v-for="(item, index) in scannedItems" :key="item.id">
             <td class="text-center">{{ index + 1 }}</td>
             <td class="text-center">{{ item.code }}</td>
-            <td v-if="showQuantity" class="quantity-cell text-center"> 
-              <button class="qty-btn" @click="item.quantity >= 1 && item.quantity--">-</button>
-              <span>{{ item.quantity }}</span>
-              <button class="qty-btn" @click="item.quantity++">+</button>
+            <td v-if="showQuantity" class="quantity-cell"> 
+              <div class="d-flex align-center justify-center qty-wrapper">
+                <v-btn icon @click="item.quantity >= 1 && item.quantity--"> <v-icon>mdi-minus</v-icon></v-btn>
+                <span class="qty-value">{{ item.quantity }}</span>
+                <v-btn icon  @click="item.quantity++"><v-icon>mdi-plus</v-icon></v-btn>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -361,6 +368,21 @@ export default {
   font-weight: 500;
 }
 
+.last-item {
+  display: flex;
+  align-items: center;
+  min-width: 0; 
+}
+
+.last-code {
+  display: inline-block;
+  max-width: 80px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
 .full-overlay {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -389,7 +411,8 @@ export default {
 
 .scanned-table-container {
   border-radius: 6px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .scanned-table thead {
@@ -401,7 +424,7 @@ export default {
 .scanned-table th,
 .scanned-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 6px;
   text-align: center;
   font-size: 14px;
 }
@@ -410,18 +433,23 @@ export default {
   border: none !important;
 }
 
-.qty-btn {
-  border: 1px solid #888;
-  background-color: white;
-  padding: 3px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  margin: 0 4px;
+.quantity-cell {
+  text-align: center;
+  vertical-align: middle; 
+  padding: 4px;        
 }
 
-.qty-btn:hover {
-  background-color: #f0f0f0;
+.qty-wrapper {
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+  gap: 6px;             
+  overflow: hidden;     
+}
+
+.qty-value {
+  min-width: 14px;
+  text-align: center;
 }
 
 .quantity-cell span {
@@ -431,26 +459,24 @@ export default {
   font-weight: 500;
 }
 
-.qty-value {
-  min-width: 24px; 
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
-
 .submit-btn {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+
   padding: 12px;
-  margin: 5px;
   background-color: rgb(48, 63, 159);
-  color: white;
+  color: white !important;
   border-radius: 10px;
   border: none;
-  width: 75%;      
-  max-width: 300px; 
+  width: 90%;
+  max-width: 400px;
   font-size: 16px;
   cursor: pointer;
 }
+
 
 @media (min-width: 768px) {
   .submit-btn {
