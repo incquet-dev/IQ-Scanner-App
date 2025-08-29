@@ -58,7 +58,7 @@
     </div>
 
     <div v-if="scannedItems.length > 0" class="scanned-table-container mb-5">
-      <v-simple-table fixed-header height="205px" class="scanned-table">
+      <v-simple-table fixed-header height="250px" class="scanned-table">
         <thead class="table-header">
           <tr>
             <th class="text-center" style="width: 10vw;">Sr. No.</th>
@@ -461,7 +461,7 @@ export default {
 
 .submit-btn {
   position: fixed;
-  bottom: 15px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
