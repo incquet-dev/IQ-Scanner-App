@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="rgb(48, 63, 159)" dark>
+    <v-app-bar app color="rgb(48, 63, 159)" height="50" style="z-index: 10;" dark>
       <div class="d-flex align-center">
         <img src="" alt="">
         <span>IQ - Scanner</span>
