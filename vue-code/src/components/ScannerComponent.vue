@@ -46,30 +46,30 @@
       </v-card>
     </v-container>
 
-    <div class="d-flex align-items justify-space-between px-2" v-if="scannedItems.length > 0">
-      <div class="last-item">
-        <b style="font-size: 16px;">Last Scanned Item</b>:  <span class="last-code">{{ lastScannedCode }}</span>
-      </div>
+    <v-row class="d-flex align-items justify-space-between px-2" v-if="scannedItems.length > 0">
+      <v-col class="last-item elipsis" cols="10">
+        <b style="font-size: 16px;">Last Scanned</b>:  <span class="last-code">{{ lastScannedCode }}</span>
+      </v-col>
 
-      <div class="d-flex align-items-center gap-1">
+      <v-col class="d-flex align-items-center gap-1" cols="2">
         <v-icon size="16">mdi-magnify-expand</v-icon>
         <span>{{ scannedItems.length }}</span>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
 
     <div v-if="scannedItems.length > 0" class="scanned-table-container mb-5">
-      <v-simple-table fixed-header height="250px" class="scanned-table">
+      <v-simple-table fixed-header height="60vh" class="scanned-table" width="100%">
         <thead class="table-header">
           <tr>
-            <th class="text-center" style="width: 10vw;">Sr. No.</th>
-            <th class="text-center" style="width: 45vw;">Scanned Code</th>
-            <th class="text-center" style="width: 45vw;" v-if="showQuantity">Quantity</th>
+            <th class="text-center" width="10%">#</th>
+            <th class="text-center" width="45%">Scanned Code</th>
+            <th class="text-center" width="45%" v-if="showQuantity">Qty</th>
           </tr>
         </thead>
         <tbody class="table-body">
           <tr v-for="(item, index) in scannedItems" :key="item.id">
-            <td class="text-center">{{ index + 1 }}</td>
-            <td class="text-center">{{ item.code }}</td>
+            <td class="text-left">{{ index + 1 }}</td>
+            <td class="text-left elipsis">{{ item.code }}</td>
             <td v-if="showQuantity" class="quantity-cell"> 
               <div class="d-flex align-center justify-center qty-wrapper">
                 <v-btn icon @click="item.quantity >= 1 && item.quantity--"> <v-icon>mdi-minus</v-icon></v-btn>
@@ -368,17 +368,14 @@ export default {
   font-weight: 500;
 }
 
-.last-item {
-  display: flex;
-  align-items: center;
-  min-width: 0; 
+.elipsis{
+  text-overflow: ellipsis;
 }
 
 .last-code {
   display: inline-block;
   max-width: 80px; 
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
 }
