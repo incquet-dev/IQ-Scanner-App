@@ -46,34 +46,49 @@
       </v-card>
     </v-container>
 
-    <div class="d-flex align-items justify-center mb-5">
-      <b>Last Scanned Item</b>:  <span>{{ lastScannedCode }}</span>
+    <div class="d-flex align-items justify-center">
+      <v-alert type="success">
+        <b>Last Scanned Item</b>:  <span>{{ lastScannedCode }}</span>
+      </v-alert>
     </div>
 
-    <table class="scanned-table mb-5">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Scanned Code</th>
-          <th v-if="showQuantity">Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in scannedItems" :key="item.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ item.code }}</td>
-          <td v-if="showQuantity" class="quantity-cell"> 
-            <button @click="item.quantity >= 1 && item.quantity--">-</button>
-            <p>{{ item.quantity }}</p>
-            <button @click="item.quantity++">+</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="scannedItems.length > 0" class="scanned-table-container mb-5">
+      <v-simple-table fixed-header height="205px" class="scanned-table">
+        <thead class="table-header">
+          <tr>
+            <th class="text-center" style="width: 10vw;">Sr. No.</th>
+            <th class="text-center" style="width: 50vw;">Scanned Code</th>
+            <th class="text-center" style="width: 30vw;" v-if="showQuantity">Quantity</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr v-for="(item, index) in scannedItems" :key="item.id">
+            <td class="text-center">{{ index + 1 }}</td>
+            <td class="text-center">{{ item.code }}</td>
+            <td v-if="showQuantity" class="quantity-cell text-center"> 
+              <button class="qty-btn" @click="item.quantity >= 1 && item.quantity--">-</button>
+              <span>{{ item.quantity }}</span>
+              <button class="qty-btn" @click="item.quantity++">+</button>
+            </td>
+          </tr>
+        </tbody>
+      </v-simple-table>
 
-    <div class="button-container">
-      <button class="submit-btn" @click="handleSubmitData">Submit</button>
     </div>
+    <div v-else class="d-flex align-center justify-center" style="height: 205px;">
+          No Items Scanned
+    </div>
+
+    <v-btn 
+      class="submit-btn" 
+      color="rgb(48, 63, 159)" 
+       style="color: white;"
+      block 
+      :disabled="scannedItems.length === 0"
+      @click="handleSubmitData">
+      Submit
+    </v-btn>
+
 
   </div>
 </template>
@@ -87,6 +102,7 @@ export default {
   props:["showQuantity", "formName", "fieldName"],
   data() {
     return {
+      audio : new Audio(require('../assets/beep.mp3')),
       result: null,
       videoStream: null,
       liveStreamStart: false,
@@ -104,6 +120,14 @@ export default {
     //QrcodeStream  
   },
   methods: {
+    onDecode(content){
+        this.$emit('scanned',content);
+        if(content != ''){
+          this.audio.play().catch(error => {
+            console.error('Error playing audio:', error);
+          });
+        }
+    },
     async startScanner() {
       if (!('BarcodeDetector' in window)) {
         console.error('Barcode Detector is not supported by this browser');
@@ -143,6 +167,7 @@ export default {
           const barcodes = await barcodeDetector.detect(this.$refs.video);
           if (barcodes.length > 0) {
             this.overlay = true;
+            this.onDecode(barcodes[0].rawValue);
             this.addScannedItem(barcodes[0].rawValue);
           } else {
             requestAnimationFrame(this.detectBarcode);
@@ -294,6 +319,10 @@ export default {
   border-radius: 10px;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .video {
   width: 100%;
   height: 100%;
@@ -350,57 +379,70 @@ export default {
 .overlay-text {
   width: 80%;
   text-align: center;
-
 }
 
-.scanned-table {
-  width: 100%;
-  border-collapse: collapse;
+/* .button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+} */
+
+.scanned-table-container {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.scanned-table thead {
+  background-color: #f5f5f5;
+  color: #333;
+  font-weight: 600;
 }
 
 .scanned-table th,
 .scanned-table td {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
+  text-align: center;
+  font-size: 14px;
 }
 
-.scanned-table th {
-  background-color: #f4f4f4;
+.scanned-table tbody tr td {
+  border: none !important;
 }
 
-.quantity-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;  
-  gap: 10px;               
-}
-
-.quantity-cell button {
-  width: 32px;
-  height: 32px;
+.qty-btn {
+  border: 1px solid #888;
+  background-color: white;
+  padding: 3px 8px;
   border-radius: 4px;
-  border: 1px solid #ccc;
   cursor: pointer;
-  background: #f9f9f9;
+  font-size: 14px;
+  margin: 0 4px;
 }
 
-.quantity-cell p {
+.qty-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.quantity-cell span {
+  display: inline-block;
+  min-width: 24px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.qty-value {
   min-width: 24px; 
   text-align: center;
-  margin: 0;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
 }
 
 .submit-btn {
   padding: 12px;
   margin: 5px;
-  background-color: blue;
+  background-color: rgb(48, 63, 159);
   color: white;
   border-radius: 10px;
   border: none;
@@ -412,7 +454,10 @@ export default {
 
 @media (min-width: 768px) {
   .submit-btn {
-    width: 15%;
+    width: 20%;
+  }
+  .video-container {
+    max-height: 300px;
   }
 }
 
