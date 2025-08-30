@@ -46,30 +46,32 @@
       </v-card>
     </v-container>
 
-    <v-row class="d-flex align-items justify-space-between px-2" v-if="scannedItems.length > 0">
-      <v-col class="last-item elipsis" cols="10">
-        <b style="font-size: 16px;">Last Scanned</b>:  <span class="last-code">{{ lastScannedCode }}</span>
+    <v-row v-if="scannedItems.length > 0" class="no-gutters mb-1">
+      <v-col class="elipsis" cols="11" style="flex: 1;">
+        <b style="font-size: 14px;">Last Scanned</b>:  <span>{{ lastScannedCode }}</span>
       </v-col>
 
-      <v-col class="d-flex align-items-center gap-1" cols="2">
+      <v-col cols="1">
         <v-icon size="16">mdi-magnify-expand</v-icon>
         <span>{{ scannedItems.length }}</span>
       </v-col>
     </v-row>
 
     <div v-if="scannedItems.length > 0" class="scanned-table-container mb-5">
-      <v-simple-table fixed-header height="60vh" class="scanned-table" width="100%">
+      <v-simple-table fixed-header height="60vh" class="scanned-table" width="100%" style="table-layout: fixed;">
         <thead class="table-header">
           <tr>
-            <th class="text-center" width="10%">#</th>
-            <th class="text-center" width="45%">Scanned Code</th>
-            <th class="text-center" width="45%" v-if="showQuantity">Qty</th>
+            <th class="text-center">#</th>
+            <th class="text-center" >Scanned Code</th>
+            <th class="text-center" v-if="showQuantity">Qty</th>
           </tr>
         </thead>
         <tbody class="table-body">
           <tr v-for="(item, index) in scannedItems" :key="item.id">
             <td class="text-left">{{ index + 1 }}</td>
-            <td class="text-left elipsis">{{ item.code }}</td>
+            <td class="text-left">
+              <span class="code-cell" :title="item.code">{{ item.code }}</span>
+            </td>
             <td v-if="showQuantity" class="quantity-cell"> 
               <div class="d-flex align-center justify-center qty-wrapper">
                 <v-btn icon @click="item.quantity >= 1 && item.quantity--"> <v-icon>mdi-minus</v-icon></v-btn>
@@ -80,8 +82,8 @@
           </tr>
         </tbody>
       </v-simple-table>
-
     </div>
+
     <div v-else class="d-flex align-center justify-center" style="height: 205px;">
           No Items Scanned
     </div>
@@ -91,6 +93,7 @@
       color="rgb(48, 63, 159)" 
        style="color: white;"
       block 
+      tile
       :disabled="scannedItems.length === 0"
       @click="handleSubmitData">
       Submit
@@ -368,15 +371,10 @@ export default {
   font-weight: 500;
 }
 
-.elipsis{
-  text-overflow: ellipsis;
-}
-
-.last-code {
-  display: inline-block;
-  max-width: 80px; 
+.elipsis {
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
   vertical-align: middle;
 }
 
@@ -424,23 +422,33 @@ export default {
   padding: 6px;
   text-align: center;
   font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .scanned-table tbody tr td {
   border: none !important;
 }
 
+.code-cell {
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
 .quantity-cell {
   text-align: center;
   vertical-align: middle; 
-  padding: 4px;        
 }
 
 .qty-wrapper {
   display: flex;
   align-items: center;  
-  justify-content: center;
-  gap: 6px;             
+  justify-content: center;  
   overflow: hidden;     
 }
 
@@ -451,7 +459,7 @@ export default {
 
 .quantity-cell span {
   display: inline-block;
-  min-width: 24px;
+  min-width: 0;
   text-align: center;
   font-weight: 500;
 }
@@ -466,7 +474,6 @@ export default {
   padding: 12px;
   background-color: rgb(48, 63, 159);
   color: white !important;
-  border-radius: 10px;
   border: none;
   width: 90%;
   max-width: 400px;
