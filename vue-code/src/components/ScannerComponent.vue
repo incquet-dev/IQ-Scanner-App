@@ -47,11 +47,11 @@
     </v-container>
 
     <v-row v-if="scannedItems.length > 0" class="no-gutters mb-1">
-      <v-col class="elipsis" cols="10" style="flex: 1;">
-        <b style="font-size: 14px;">Last Scanned</b>:  <span>{{ lastScannedCode }}</span>
+      <v-col class="elipsis" cols="11" style="flex: 1;">
+        <b style="font-size: 14px; margin-left: 2px;">Last Scanned</b>:  <span>{{ lastScannedCode }}</span>
       </v-col>
 
-      <v-col cols="2">
+      <v-col cols="1">
         <v-icon size="16">mdi-magnify-expand</v-icon>
         <span>{{ scannedItems.length }}</span>
       </v-col>
