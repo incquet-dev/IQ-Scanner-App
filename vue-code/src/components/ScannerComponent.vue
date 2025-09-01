@@ -47,11 +47,11 @@
     </v-container>
 
     <v-row v-if="scannedItems.length > 0" class="no-gutters mb-1">
-      <v-col class="elipsis" cols="11" style="flex: 1;">
+      <v-col class="elipsis" cols="10" style="flex: 1;">
         <b style="font-size: 14px;">Last Scanned</b>:  <span>{{ lastScannedCode }}</span>
       </v-col>
 
-      <v-col cols="1">
+      <v-col cols="2">
         <v-icon size="16">mdi-magnify-expand</v-icon>
         <span>{{ scannedItems.length }}</span>
       </v-col>
@@ -74,7 +74,7 @@
             </td>
             <td v-if="showQuantity" class="quantity-cell"> 
               <div class="d-flex align-center justify-center qty-wrapper">
-                <v-btn icon @click="item.quantity >= 1 && item.quantity--"> <v-icon>mdi-minus</v-icon></v-btn>
+                <v-btn icon @click="item.quantity > 1 && item.quantity--"> <v-icon>mdi-minus</v-icon></v-btn>
                 <span class="qty-value">{{ item.quantity }}</span>
                 <v-btn icon  @click="item.quantity++"><v-icon>mdi-plus</v-icon></v-btn>
               </div>
@@ -408,6 +408,7 @@ export default {
   border-radius: 6px;
   overflow-x: hidden;
   overflow-y: auto;
+  padding: 10px;
 }
 
 .scanned-table thead {

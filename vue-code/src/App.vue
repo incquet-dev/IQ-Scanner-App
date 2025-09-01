@@ -23,8 +23,6 @@
 </template>
 
 <script>
-
-
 import { ZOHO } from '../lib/widgets.js'; 
 import ScannerComponent from './components/ScannerComponent.vue';
 
@@ -44,7 +42,11 @@ export default {
   },
   methods: {
     goExternal() {
-      window.open("https://incquet.com/?utm_src=iqscanner&utm_medium=alpha", "_blank");
+      let a = document.createElement("a");
+      a.href = "https://incquet.com/?utm_src=iqscanner&utm_medium=alpha"
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.click();
     }
   },
   created() {
