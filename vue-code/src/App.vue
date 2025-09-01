@@ -45,7 +45,6 @@ export default {
       let a = document.createElement("a");
       a.href = "https://incquet.com/?utm_src=iqscanner&utm_medium=alpha"
       a.target = "_blank";
-      a.rel = "noopener noreferrer";
       a.click();
     }
   },
