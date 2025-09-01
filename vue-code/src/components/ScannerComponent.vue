@@ -51,7 +51,7 @@
         <b style="font-size: 14px; margin-left: 3px;">Last Scanned</b>:  <span>{{ lastScannedCode }}</span>
       </v-col>
 
-      <v-col cols="2">
+      <v-col cols="2" class="d-flex justify-end">
         <v-icon size="16">mdi-magnify-expand</v-icon>
         <span>{{ scannedItems.length }}</span>
       </v-col>
@@ -70,7 +70,7 @@
           <tr v-for="(item, index) in scannedItems" :key="item.id">
             <td class="text-left">{{ index + 1 }}</td>
             <td class="text-left">
-              <span class="code-cell" :title="item.code">{{ item.code }}</span>
+              <span :class="showQuantity ? 'code-cell' : 'code-cell-qty'" :title="item.code">{{ item.code }}</span>
             </td>
             <td v-if="showQuantity" class="quantity-cell"> 
               <div class="d-flex align-center justify-center qty-wrapper">
@@ -435,6 +435,15 @@ export default {
 .code-cell {
   display: inline-block;
   max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.code-cell-qty {
+  display: inline-block;
+  max-width: 235px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
