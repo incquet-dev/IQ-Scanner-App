@@ -58,21 +58,21 @@
     </v-row>
 
     <div v-if="scannedItems.length > 0" class="scanned-table-container mb-5">
-      <v-simple-table fixed-header height="60vh" class="scanned-table" width="100%" style="table-layout: fixed;">
+      <v-simple-table fixed-header height="60vh" class="scanned-table" width="100%">
         <thead class="table-header">
           <tr>
-            <th class="text-center">#</th>
-            <th class="text-center" >Scanned Code</th>
-            <th class="text-center" v-if="showQuantity">Qty</th>
+            <th class="text-center" width="10%">#</th>
+            <th class="text-center" width="50%">Scanned Code</th>
+            <th class="text-center" width="40%" v-if="showQuantity">Qty</th>
           </tr>
         </thead>
         <tbody class="table-body">
           <tr v-for="(item, index) in scannedItems" :key="item.id">
-            <td class="text-left">{{ index + 1 }}</td>
-            <td class="text-left">
+            <td class="text-left" width="10%">{{ index + 1 }}</td>
+            <td class="text-left" width="50%">
               <span :class="showQuantity ? 'code-cell' : 'code-cell-qty'" :title="item.code">{{ item.code }}</span>
             </td>
-            <td v-if="showQuantity" class="quantity-cell"> 
+            <td v-if="showQuantity" class="quantity-cell" width="40%"> 
               <div class="d-flex align-center justify-center qty-wrapper">
                 <v-btn icon @click="item.quantity > 1 && item.quantity--"> <v-icon>mdi-minus</v-icon></v-btn>
                 <span class="qty-value">{{ item.quantity }}</span>
@@ -434,7 +434,7 @@ export default {
 
 .code-cell {
   display: inline-block;
-  max-width: 150px;
+  width: 30%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
