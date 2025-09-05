@@ -46,8 +46,8 @@
       </v-card>
     </v-container>
 
-    <v-row v-if="scannedItems.length > 0" class="no-gutters mb-1">
-      <v-col class="elipsis" cols="10" style="flex: 1;">
+    <v-row v-if="scannedItems.length > 0" class=" mb-1 mx-1">
+      <v-col class="elipsis" cols="10" >
         <b style="font-size: 14px; margin-left: 3px;">Last Scanned</b>:  <span>{{ lastScannedCode }}</span>
       </v-col>
 
@@ -58,21 +58,21 @@
     </v-row>
 
     <div v-if="scannedItems.length > 0" class="scanned-table-container mb-5">
-      <v-simple-table fixed-header height="60vh" class="scanned-table" width="100%" style="table-layout: fixed;">
+      <v-simple-table fixed-header height="60vh" class="scanned-table" width="100%">
         <thead class="table-header">
           <tr>
-            <th class="text-center">#</th>
-            <th class="text-center" >Scanned Code</th>
-            <th class="text-center" v-if="showQuantity">Qty</th>
+            <th class="text-center" width="10%">#</th>
+            <th class="text-center" width="60%">Scanned Code </th>
+            <th class="text-center" width="30%" v-if="showQuantity">Qty</th>
           </tr>
         </thead>
         <tbody class="table-body">
           <tr v-for="(item, index) in scannedItems" :key="item.id">
-            <td class="text-left">{{ index + 1 }}</td>
-            <td class="text-left">
+            <td class="text-center" width="10%">{{ index + 1 }}</td>
+            <td class="text-left" width="60%">
               <span :class="showQuantity ? 'code-cell' : 'code-cell-qty'" :title="item.code">{{ item.code }}</span>
             </td>
-            <td v-if="showQuantity" class="quantity-cell"> 
+            <td v-if="showQuantity" class="quantity-cell" width="30%"> 
               <div class="d-flex align-center justify-center qty-wrapper">
                 <v-btn icon @click="item.quantity > 1 && item.quantity--"> <v-icon>mdi-minus</v-icon></v-btn>
                 <span class="qty-value">{{ item.quantity }}</span>
@@ -423,9 +423,9 @@ export default {
   padding: 6px;
   text-align: center;
   font-size: 14px;
-  overflow: hidden;
+  /* overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap; */
 }
 
 .scanned-table tbody tr td {
@@ -433,11 +433,11 @@ export default {
 }
 
 .code-cell {
-  display: inline-block;
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* display: inline-block; */
+  /* width: 30%; */
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+  /* white-space: nowrap; */
   vertical-align: middle;
 }
 
@@ -472,6 +472,12 @@ export default {
   min-width: 0;
   text-align: center;
   font-weight: 500;
+}
+.quantity-cell i{
+font-size: 20px !important;
+    /* background: #dadada57;
+    border-radius: 50%;
+    margin: 0px 13px; */
 }
 
 .submit-btn {
